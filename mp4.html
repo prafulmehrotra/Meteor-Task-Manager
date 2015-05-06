@@ -1,0 +1,293 @@
+<head>
+  <title> MP4 Meteor Application</title>
+</head>
+
+<body>
+
+  <div class= "row text-center">
+  	<a class="button" href="/">User List</a>
+  	<a class="button" href="/tasklist">Task List</a>
+  </div>	
+  
+  
+</body>
+
+<template name="user">
+  <div class = "row text-center">
+  	<a class="button" data-reveal-id="adduser-modal">Add User</a>
+  </div>
+  
+
+ <div class="row">
+  <div class="large-10 columns large-offset-1 end">
+    <table style="width:100%;">
+      <thead>
+        <tr>
+          <th class="text-center"> ID </th>
+          <th class="text-center" >Name</th>
+          <th class="text-center">Email</th>
+          <th class="text-center">Date Created</th>
+          <th class="text-center"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each user}}
+        <tr>
+          <th class="text-center" ><a href="/userview/{{this._id}}">{{_id}}</a></th>
+          <th class="text-center" >{{name}}</th>
+          <th class="text-center">{{email}}</th>
+          <th class="text-center">{{formatDate dateCreated}}</th>
+          <th class="text-center"><button class = "delete">Delete User</button></th>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>    
+
+  <div id="adduser-modal" class="reveal-modal medium" data-reveal> 
+  	<div class="row">
+    	<div class="small-12  columns">
+      		<label>Name <span style="color:#FF0000;">*</span>
+        	<input type="text" class="addname" />
+        	
+      		</label>
+    	</div>
+  	</div>
+   	<div class="row">
+    	<div class="small-12 columns">
+      		<label>Email <span style="color:#FF0000;">*</span>
+        	<input type="text" class="addemail"/>
+        	
+      		</label>
+    	</div>
+  	</div>
+  	<div class="row">
+   		<div class="small-12 text-center">
+   			<button class="addbutton">Submit!</button>
+    		
+   		</div>
+  	</div>
+  </div>
+</template>
+
+<template name ="task"> 
+	<div class = "row text-center">
+  		<a class="button" data-reveal-id="addtask-modal">Add Task</a>
+  	</div>
+
+  <div id="addtask-modal" class="reveal-modal medium" data-reveal>
+  	<div class="row">
+			<div class="small-12 columns">
+      			<label>Name <span style="color:#FF0000;">*</span>
+        		<input class="name" type="text" />
+      			</label>
+    		</div>
+  		</div>
+   		<div class="row">
+    		<div class="small-12 columns">
+      			<label>Description
+        		<input class="ds" type="text" />
+      			</label>
+    		</div>
+  		</div>
+   		<div class="row">
+    		<div class="small-12 columns">
+      			<label>Deadline <span style="color:#FF0000;">*</span>
+        		<datepicker>
+          			<input class = "date" type="date" />
+        		</datepicker>  
+      			</label>
+    		</div>
+  		</div>
+  		<div class="row">
+    		<div class="small-12 columns">
+      			<label>User
+        		<select id="username">
+              {{#each taskuser}} 
+                <option>{{name}}</option>
+              {{/each}}
+            </select>
+        		</label>
+    		</div>
+  		</div>
+
+  		<div class="row">
+   			<div class="small-12 columns text-center">
+    			<button class="addtaskbtn">Submit!</button>
+   			</div>
+  		</div>
+  	</div>
+
+
+  <div class="row">
+    <div class="large-offset-1 large-3 columns">
+        <form>
+          <input class = "triggerevent" type="radio" name="count" value="all">All Tasks
+          <br>
+          <input class="triggerevent" type="radio" name="count" value="completed">Completed Tasks
+          <br>
+          <input class="triggerevent" type="radio" name="count" value="pending" checked>Pending Tasks
+        </form>
+    </div>
+    <div class="large-3 columns">
+        <form>
+          <label>Sort by:</label>
+          <select class="sortevent" id = "sorting">
+            <option class = "sortevent" value="name">Task Name</option>
+            <option class = "sortevent" value="assignedUserName">Username</option>
+            <option class = "sortevent" value="dateCreated">Date Created</option>
+            <option class = "sortevent" value="deadline">Deadline</option>
+          </select>  
+        </form>
+    </div>
+    <div class="large-offset-1 large-3 columns end">
+        <form>
+          <label>Order by:</label>
+          <input class="orderevent" type="radio" name="order" value="Ascending" checked>Ascending
+          <br>
+          <input class="orderevent" type="radio" name="order" value="Descending">Descending
+        </form>
+    </div>
+  </div> 
+
+  <div class="row">
+    <div class="large-5 columns text-center"><button class="prev" >Previous</button></div>
+    <div class="large-2 columns text-center"><p>Tasks</p><p></p></div>
+    <div class="large-5 columns text-center"><button class="next">Next</button></div>  
+  </div>
+
+  <div class="row">
+    <div class="large-10 columns large-offset-1 end">
+
+      <table style="width:100%;">
+        <thead>
+          <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center" >Name</th>
+            <th class="text-center">Description</th>
+            <th class="text-center">Deadline</th>
+            <th class="text-center">Date Created</th>
+            <th class="text-center">User</th>
+            <th class="text-center"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each task}}
+          <tr>
+            <th class="text-center" ><a href="/taskview/{{this._id}}">{{_id}}</a></th>
+            <th class="text-center" >{{name}}</th>
+            <th class="text-center">{{description}}</th>
+            <th class="text-center">{{formatDate deadline}}</th>
+            <th class="text-center">{{formatDate dateCreated}}</th>
+            <th class="text-center">{{assignedUserName}}</th>
+            <th class="text-center"><button class = "delete"> Delete Task</button></th>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>
+
+<template name="userview">
+  <div class="row">
+     <div class="large-8 columns large-offset-4 end">
+        <p><b>Name: </b>{{name}}</p>
+        <p><b>Email: </b>{{email}}</p>
+        <p><b>Pending Tasks: </b></p>
+     </div>   
+  </div>
+  <div class="row">
+    <div class="large-8 columns large-offset-2 end">
+      <table style="width:100%;">
+        <thead>
+          <tr>
+            <th class="text-center">Task</th>
+            <th class="text-center">Deadline</th>
+            <th class="text-center"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each pending}}
+          <tr>
+            <th class="text-center"><a href="/taskview/{{this._id}}">{{name}}</a></th>
+            <th class="text-center">{{formatDate deadline}}</th>
+            <th class="text-center"><button class="completed">Completed!</button></th>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>  
+</template>
+
+<template name="taskview">
+  <div class = "row text-center">
+      <a href="/edittask/{{_id}}" class="button">Edit Task</a>
+  </div>
+  <div class="row">
+     <div class="large-4 columns large-offset-4 end">
+        <p><b>Name: </b>{{name}}</p>
+        <p><b>Description: </b>{{description}}</p>
+        <p><b>Deadline: </b>{{formatDate deadline}}</p>
+        <p><b>Date Created: </b>{{formatDate dateCreated}}</p>
+        <p><b>User: </b>{{assignedUserName}}</p>
+        <p><b>Toggle Completed Status:</b> </p>
+        <div class="text-center"><button class="toggle"> Toggle! </button></div>
+     </div>   
+  </div>
+</template>
+
+<template name="edittask">
+  <div class="row">
+      <div class="large-offset-3 large-6 columns end">
+        <label>Name <span style="color:#FF0000;">*</span>
+          <input class="name" type="text" value="{{name}}"/>
+        </label>
+      </div>
+  </div>
+  <div class="row">
+      <div class="large-offset-3 large-6 columns end">
+        <label>Description
+          <input class="ds" type="text" value="{{description}}" />
+        </label>
+      </div>
+  </div>
+  <div class="row">
+      <div class="large-offset-3 large-6 columns end">
+        <label>Deadline <span style="color:#FF0000;">*</span>
+          <input class = "date" type="date" value="{{deadline}}"/>
+        </label>
+      </div>
+  </div>
+  <div class="row">
+      <div class="large-offset-3 large-6 columns end">
+        <label>User
+          <select id ="username">
+            <option value="unassigned">Unassigned</option> 
+            {{#each userlist}}
+            <option>{{name}}</option>
+            {{/each}}
+          </select>
+        </label>
+      </div>
+  </div>
+  <div class="row">
+      <div class="small-12 medium-6 large-offset-3 large-6 columns end">
+        <label>Completed:
+          
+            <input type="radio" name="opt" value=true>true
+            <input type="radio" name="opt" value=false checked>false
+          
+        </label>
+      </div>
+  </div>
+  <div class="row">
+      <div class="small-12 medium-6 large-offset-3 large-6 columns text-center end">
+        <button class="edittask">Submit!</button>
+      </div>
+  </div>
+</template>
+
+
