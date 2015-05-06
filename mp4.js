@@ -259,7 +259,7 @@ if (Meteor.isClient) {
 					$('#adduser-modal').foundation('reveal','close');
 				}
 				else {
-					alert("Name exists in database!");
+					alert("Email exists in database!");
 				}
 			}
 			
