@@ -254,8 +254,6 @@ if (Meteor.isClient) {
 						  		email:$('.addemail').val(),
 						  		pendingTasks:[],
 						  		dateCreated: new Date()});
-					//console.log("trigger");
-
 					$('#adduser-modal').foundation('reveal','close');
 				}
 				else {
